@@ -3,7 +3,6 @@ from scipy.stats import norm, truncnorm
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor
 
-print("runningstart")
 def _em_step_body_(args):
     """
     Does a step of the EM algorithm, needed to dereference args to support parallelism
@@ -25,7 +24,7 @@ def _em_step_body(Z_row, r_lower_row, r_upper_row, sigma, num_ord):
 
     Returns:
         C (matrix): results in the updated covariance when added to the empircal covariance
-        Z_imp_row (array): Z_row with latent ordinals updated and missing entries imputed
+        Z_imp_row (array): Z_row with latent ordinals updated and missing entries imputed 
         Z_row (array): inpute Z_row with latent ordinals updated
     """
     Z_imp_row = np.copy(Z_row)
@@ -40,7 +39,7 @@ def _em_step_body(Z_row, r_lower_row, r_upper_row, sigma, num_ord):
     sigma_obs_obs = sigma[np.ix_(obs_indices,obs_indices)]
     sigma_obs_missing = sigma[np.ix_(obs_indices, missing_indices)]
     sigma_missing_missing = sigma[np.ix_(missing_indices, missing_indices)]
-    # precompute psuedo-inverse
+    # precompute psuedo-inverse 
     sigma_obs_obs_inv = np.linalg.pinv(sigma_obs_obs)
     # precompute sigma_obs_obs_inv * simga_obs_missing
     if len(missing_indices) > 0:
@@ -137,8 +136,8 @@ class ExpectationMaximization():
 
     def _fit_covariance(self, X, cont_indices, ord_indices, threshold, max_iter, max_workers):
         """
-        Fits the covariance matrix of the gaussian copula using the data
-        in X and returns the imputed latent values corresponding to
+        Fits the covariance matrix of the gaussian copula using the data 
+        in X and returns the imputed latent values corresponding to 
         entries of X and the covariance of the copula
 
         Args:
@@ -147,7 +146,7 @@ class ExpectationMaximization():
             ord_indices (array): indices of the ordinal entries
             threshold (float): the threshold for scaled difference between covariance estimates at which to stop early
             max_iter (int): the maximum number of iterations for copula estimation
-            max_workers (positive int): the maximum number of workers for parallelism
+            max_workers (positive int): the maximum number of workers for parallelism 
 
         Returns:
             sigma (matrix): an estimate of the covariance of the copula
@@ -182,7 +181,7 @@ class ExpectationMaximization():
 
     def _em_step(self, Z, r_lower, r_upper, sigma, max_workers):
         """
-        Executes one step of the EM algorithm to update the covariance
+        Executes one step of the EM algorithm to update the covariance 
         of the copula
 
         Args:
@@ -262,7 +261,7 @@ class ExpectationMaximization():
             prev_sigma (matrix): previous estimate of a matrix
             sigma (matrix): current estimate of a matrix
 
-        Returns:
+        Returns: 
             diff (float): scaled distance between the inputs
         """
 
@@ -288,4 +287,4 @@ class ExpectationMaximization():
                 indices[i] = True
         return indices
 
-print("runningend")
+
